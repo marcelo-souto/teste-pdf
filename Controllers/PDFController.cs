@@ -18,8 +18,8 @@ namespace teste.Controllers
         [HttpPost]
         public IActionResult CreatePDF([FromForm] string name)
         {
-            byte[] pdf = _pdfService.CreatePDF(name);
-            return File(pdf, "application/pdf");
+            var pdf = _pdfService.CreatePDF(name);
+            return File(pdf, "application/pdf", "file.pdf");
         }
 
     }
