@@ -1,3 +1,4 @@
+using System.Web;
 using DinkToPdf;
 using DinkToPdf.Contracts;
 
@@ -13,6 +14,7 @@ namespace teste.Services
         }
         public byte[] CreatePDF(string name)
         {
+            var sanitizedString = HttpUtility.HtmlEncode(name);
 
             var pdfDocument = new HtmlToPdfDocument()
             {
@@ -24,7 +26,7 @@ namespace teste.Services
                 Objects = {
                     new ObjectSettings()
                     {
-                        HtmlContent = $"<h1>Hello, {name}!</h1>",
+                        HtmlContent = $"<h1>Hello, {sanitizedString}!</h1>",
                     }
                 }
             };
