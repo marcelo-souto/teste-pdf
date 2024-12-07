@@ -1,43 +1,24 @@
 using System.Web;
-using DinkToPdf;
-using DinkToPdf.Contracts;
+using teste.Adapters;
 
 namespace teste.Services
 {
     public class PDFService
     {
-        private IConverter _converter;
+        private PDFAdapter _pdfAdapter;
 
-        public PDFService(IConverter converter)
+        public PDFService(PDFAdapter pdfAdapter)
         {
-            _converter = converter;
+            _pdfAdapter = pdfAdapter;
         }
+
         public byte[] CreatePDF(string name)
         {
             var sanitizedString = HttpUtility.HtmlEncode(name);
+            var htmlContent = $"<h1>Hello, {sanitizedString}!</h1>";
 
-            var pdfDocument = new HtmlToPdfDocument()
-            {
-                GlobalSettings = {
-                    ColorMode = ColorMode.Color,
-                    Orientation = Orientation.Portrait,
-                    PaperSize = PaperKind.A4Plus,
-                },
-                Objects = {
-                    new ObjectSettings()
-                    {
-                        HtmlContent = $"<h1>Hello, {sanitizedString}!</h1>",
-                    }
-                }
-            };
-
-            byte[] pdf = _converter.Convert(pdfDocument);
-
-            return pdf;
+            return _pdfAdapter.Generate(htmlContent);
         }
     }
-
-
-
 
 }
