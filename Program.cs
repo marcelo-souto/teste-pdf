@@ -1,5 +1,6 @@
 using DinkToPdf;
 using DinkToPdf.Contracts;
+using teste.Adapters;
 using teste.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
 builder.Services.AddScoped<PDFService>();
+builder.Services.AddScoped<PDFAdapter, DinkToPDFAdapter>();
+
 builder.Services.AddControllers();
 
 var app = builder.Build();
